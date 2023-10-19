@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BankiSzolgaltatasok
 {
-    internal abstract class BankiSzolgaltatas
+    public abstract class BankiSzolgaltatas
     {
         private Tulajdonos tulajdonos;
 
@@ -15,6 +15,6 @@ namespace BankiSzolgaltatasok
             this.tulajdonos = tulajdonos;
         }
 
-        internal Tulajdonos Tulajdonos { get => tulajdonos;}
+        public Tulajdonos Tulajdonos { get => tulajdonos;}
     }
 }

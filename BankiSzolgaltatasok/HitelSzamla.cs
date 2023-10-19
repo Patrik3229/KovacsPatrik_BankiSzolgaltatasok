@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BankiSzolgaltatasok
 {
-    internal class HitelSzamla : Szamla
+    public class HitelSzamla : Szamla
     {
         private int hitelKeret;
 
@@ -17,7 +17,7 @@ namespace BankiSzolgaltatasok
 
         public int HitelKeret { get => hitelKeret; }
 
-        public new bool Kivesz(int osszeg)
+        public override bool Kivesz(int osszeg)
         {
             if (osszeg >= this.hitelKeret + base.aktualisEgyenleg)
             {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BankiSzolgaltatasok
 {
-    internal abstract class Szamla : BankiSzolgaltatas
+    public abstract class Szamla : BankiSzolgaltatas
     {
         protected int aktualisEgyenleg;
 
@@ -22,19 +22,11 @@ namespace BankiSzolgaltatasok
             this.aktualisEgyenleg += osszeg;
         }
 
-        public bool Kivesz(int osszeg)
-        {
-            if (this.aktualisEgyenleg >= osszeg)
-            {
-                this.aktualisEgyenleg -= osszeg;
-                return true;
-            }
-            return false;
-        }
+        public abstract bool Kivesz(int osszeg);
 
         public Kartya UjKartya(string kartyaSzam)
         {
-            return new Kartya(Tulajdonos, kartyaSzam, this);
+            return new Kartya(Tulajdonos, this, kartyaSzam);
         }
     }
 }
