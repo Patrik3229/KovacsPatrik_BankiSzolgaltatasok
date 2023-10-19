@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BankiSzolgaltatasok
 {
-    internal class Szamla : BankiSzolgaltatas
+    internal abstract class Szamla : BankiSzolgaltatas
     {
         protected int aktualisEgyenleg;
 
