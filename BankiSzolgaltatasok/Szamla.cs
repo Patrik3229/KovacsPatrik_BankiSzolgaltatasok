@@ -31,5 +31,10 @@ namespace BankiSzolgaltatasok
             }
             return false;
         }
+
+        public Kartya UjKartya(string kartyaSzam)
+        {
+            return new Kartya(Tulajdonos, kartyaSzam, this);
+        }
     }
 }
