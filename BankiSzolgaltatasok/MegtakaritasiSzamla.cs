@@ -30,7 +30,7 @@ namespace BankiSzolgaltatasok
 
         public void KamatJovairas()
         {
-            base.aktualisEgyenleg *= (int)(this.kamat * base.aktualisEgyenleg);
+            base.aktualisEgyenleg += (int)(this.kamat * base.aktualisEgyenleg - base.aktualisEgyenleg);
         }
     }
 }

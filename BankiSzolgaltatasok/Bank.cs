@@ -22,9 +22,11 @@ namespace BankiSzolgaltatasok
                 long osszeg = 0;
                 for (int i = 0; i < szamlaLista.Count; i++)
                 {
-                    #pragma warning disable CS8602 // Dereference of a possibly null reference.
-                    osszeg += (szamlaLista[i] as HitelSzamla).HitelKeret;
-                    #pragma warning restore CS8602 // Dereference of a possibly null reference.
+                    HitelSzamla hitelSzamla = szamlaLista[i] as HitelSzamla;
+                    if (hitelSzamla != null)
+                    {
+                        osszeg += hitelSzamla.HitelKeret;
+                    }
                 }
                 return osszeg;
             }
@@ -32,18 +34,25 @@ namespace BankiSzolgaltatasok
 
         public Szamla SzamlaNyitas(Tulajdonos tulajdonos, int hitelKeret)
         {
+            Szamla newSzamla;
+
             if (hitelKeret > 0)
             {
-                szamlaLista.Add(new HitelSzamla(tulajdonos, hitelKeret));
-                return new HitelSzamla(tulajdonos, hitelKeret);
+                newSzamla = new HitelSzamla(tulajdonos, hitelKeret);
             }
             else if (hitelKeret == 0)
             {
-                szamlaLista.Add(new MegtakaritasiSzamla(tulajdonos));
-                return new MegtakaritasiSzamla(tulajdonos);
+                newSzamla = new MegtakaritasiSzamla(tulajdonos);
             }
-            throw new Exception("Nem lehet negatív a hitelkeret.");
+            else
+            {
+                throw new ArgumentException("Nem lehet negatív a hitelkeret.");
+            }
+
+            szamlaLista.Add(newSzamla);
+            return newSzamla;
         }
+
 
         public long GetOsszEgyenleg(Tulajdonos tulajdonos)
         {
@@ -61,16 +70,20 @@ namespace BankiSzolgaltatasok
         public Szamla GetLegnagyobbEgyenleguSzamla(Tulajdonos tulajdonos)
         {
             int legnagyobb = int.MinValue;
-            int index = 0;
-            for (int i = 0; i < szamlaLista.Count; i++)
+            Szamla legnagyobbSzamla = null;
+            foreach (var szamla in szamlaLista)
             {
-                if (szamlaLista[i].AktualisEgyenleg > legnagyobb)
+                if (szamla.Tulajdonos.Equals(tulajdonos) && szamla.AktualisEgyenleg > legnagyobb)
                 {
-                    legnagyobb = szamlaLista[i].AktualisEgyenleg;
-                    index = i;
+                    legnagyobb = szamla.AktualisEgyenleg;
+                    legnagyobbSzamla = szamla;
                 }
             }
-            return szamlaLista[index];
+            if (legnagyobbSzamla == null)
+            {
+                throw new Exception("Nincs számla ilyen nevű tulajdonossal.");
+            }
+            return legnagyobbSzamla;
         }
     }
 }
